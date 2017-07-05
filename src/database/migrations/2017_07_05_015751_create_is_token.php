@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOauth2TokenTable extends Migration
+class CreateIsToken extends Migration
 {
     /**
      * Run the migrations.
@@ -20,6 +20,7 @@ class CreateOauth2TokenTable extends Migration
             $table->integer('expires_in');
             $table->text('extra_data');
             $table->timestamps();
+        });
     }
 
     /**
