@@ -5,12 +5,6 @@ namespace Djaxho\LaravelInfusionsoftOauth2;
 use Infusionsoft\Infusionsoft as ISDK;
 use Infusionsoft\Token;
 
-/**
- * Class Infusionsoft
- * @package App\Lib\Infusionsoft
- *
- * Based on the original Infusionsoft API Plugin written by Danny Jackson <djaxho@gmail.com>
- */
 class Infusionsoft extends ISDK
 {
 
