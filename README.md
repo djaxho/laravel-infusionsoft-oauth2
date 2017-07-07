@@ -7,23 +7,8 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```Danny Jackson``` ```djaxho``` ```https://djaxho.github.io/djaxho/``` ```djaxho@gmail.com``` ```djaxho``` ```laravel-infusionsoft-oauth2``` ```Laravel package to facilitate the use of the Infusionsoft API using OAUTH2``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line. You can run `$ php prefill.php` in the command line to make all replacements at once. Delete the file prefill.php as well.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
-
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
-
-```
-bin/        
-config/
-src/
-tests/
-vendor/
-```
-
+Laravel package to facilitate the use of the Infusionsoft API using OAUTH2. This packages is quite specific to laravel
 
 ## Install
 
@@ -33,26 +18,42 @@ Via Composer
 $ composer require djaxho/laravel-infusionsoft-oauth2
 ```
 
-## Usage
-
+## Installation
+(These instructions are for an 'alerady set-up' laravel project with a functioning database set up)
+Add the service provider for laravel by adding the following line to your 'providers' array in the file congig/app.php 
 ``` php
-$skeleton = new Djaxho\LaravelInfusionsoftOauth2();
-echo $skeleton->echoPhrase('Hello, League!');
+Djaxho\LaravelInfusionsoftOauth2\LaravelInfusionsoftOauth2ServiceProvider::class,
+```
+Publish the package files to your project by running:
+``` bash
+$ php artisan vendor:publish
+```
+Run your database migrations:
+``` bash
+$ php artisan migrate
+```
+You may now navigate to your.url/authorize-infusionsoft-api and click 'authorize.' You will then be taken to infusionsoft to authorize your api connection. At the end of this process you will be led back to the your.url/authorize-infusionsoft-api page with a success message and the oauth2 key stored in your database
+
+## Usage
+To start using the infusionsoft api after going through the steps above, add this to the top of your php file:
+``` php
+use Djaxho\LaravelInfusionsoftOauth2\Infusionsoft;
+```
+And in the methods of your classes (or in the constructor method) you can leverage laravel's automatic dependency injection to instantiate the infusionsoft api singleton like so:
+``` php
+public function __construct(Infusionsoft $infusionsoft)
+{
+    $this->infusionsoft = $infusionsoft;
+}
+```
+Then you can use the infusionsoft api documentation to make api calls. As a simple example, you would use it liek this:
+``` php
+$updateField = $this->infusionsoft->data()->update('Contact', $contactId, $updateData);
 ```
 
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Testing
-
-``` bash
-$ composer test
-```
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details.
 
 ## Security
 
