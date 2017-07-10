@@ -28,22 +28,34 @@ Publish the package files to your project by running:
 ``` bash
 $ php artisan vendor:publish
 ```
-Run your database migrations:
+Add the following variable to your .env file or u them in your pdate config/laravel-infusionsoft-oauth2.php file with values obtained from your infusionsoft developer account and for ISDK_API_REDIRECT use the uri you are serving your site from (i.e. www.yoursite.dev)
+``` bash
+ISDK_API_HOST
+ISDK_API_CLIENTID
+ISDK_API_CLIENTSECRET
+ISDK_API_REDIRECT
+```
+
+Run your database migrations (first make sure you have your database info in your .env file or config files so you can successfully connect to the database of your choosing):
 ``` bash
 $ php artisan migrate
 ```
-You may now navigate to your.url/authorize-infusionsoft-api and click 'authorize.' You will then be taken to infusionsoft to authorize your api connection. At the end of this process you will be led back to the your.url/authorize-infusionsoft-api page with a success message and the oauth2 key stored in your database
+You may now navigate to your.url/authorize-infusionsoft-api (whichever url you used for ISDK_API_REDIRECT) and click 'authorize.' You will then be taken to infusionsoft to authorize your api connection. At the end of this process you will be led back to the your.url/authorize-infusionsoft-api page with a success message and the oauth2 key stored in your database
 
 ## Usage
 To start using the infusionsoft api after going through the steps above, add this to the top of your php file:
 ``` php
 use Djaxho\LaravelInfusionsoftOauth2\Infusionsoft;
 ```
-And in the methods of your classes (or in the constructor method) you can leverage laravel's automatic dependency injection to instantiate the infusionsoft api singleton like so:
+And in the methods of your classes (or in the constructor method) you can leverage laravel's automatic dependency injection to instantiate the infusionsoft api singleton. As an example of something you could do to test your api connection in a controller class:
 ``` php
+
+protected $infusionsoft;
+
 public function __construct(Infusionsoft $infusionsoft)
 {
     $this->infusionsoft = $infusionsoft;
+    var_dump($this->infusionsoft->hasToken());
 }
 ```
 Then you can use the infusionsoft api documentation to make api calls. As a simple example, you would use it liek this:
